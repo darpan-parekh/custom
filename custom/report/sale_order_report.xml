@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template id="sale_order_report" inherit_id="sale.report_saleorder_document">
+        <xpath expr="//thead/tr/th[@name='th_discount']" position="after">
+            <th name="th_disc_type">Disc Type</th>
+            <th name="th_discount">Discount %</th>
+        </xpath>
+        <xpath expr="//tbody/t/tr/t/td[@name='td_priceunit']" position="after">
+            <td name="td_disc_type">
+                <span t-field="line.product_didc_type"/>
+            </td>
+            <td name="td_discount">
+                <span t-field="line.product_disc"/>
+            </td>
+
+        </xpath>
+    </template>
+</odoo>

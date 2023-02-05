@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+
+    <record id="custom_invoice_form" model="ir.ui.view">
+        <field name="name">custom.form</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="custom_price"/>
+            </xpath>
+            <xpath expr="//field[@name='edi_state']" position="inside">
+                <field name="custom_name"/>
+            </xpath>
+            <xpath expr="//field[@name='invoice_date']" position="after">
+                <field name="payment_mode"/>
+                <field name="account_balance"/>
+                <field name="account_branch"/>
+                <field name="branch_city"
+                       attrs="{'invisible' : [('city_check','=',False),'|',('bool_hide','=',True)] ,'required':[('city_check','=',True)]}"/>
+                <field name="custom_city" attrs="{'invisible' : [('city_check','=',True)]}"/>
+                <field name="bool_hide" invisible="1"/>
+                <field name="city_check" attrs="{'invisible' : [('bool_hide','=',True)]}"/>
+                <button name="check_city" type="object" string="Check City"/>
+            </xpath>
+            <xpath expr="//notebook/page[@id='invoice_tab']/field[@name='invoice_line_ids']/tree/field[@name='price_unit']"
+                   position="after">
+                <field name="product_didc_type"/>
+                <field name="product_disc"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="custom_invoice_tree">
+        <field name="name">custom.invoice.tree</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook/page[@id='invoice_tab']/field[@name='invoice_line_ids']/tree/field[@name='name']"
+                   position="after">
+                <field name="payment_amount"/>
+                <field name="account_name"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_product_tree_custom">
+        <field name="name">product.tree.inherit</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="account.product_template_view_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//tree/field[@name='name']"
+                   position="after">
+                <field name="product_name"/>
+                <field name="manufecture_add"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="product_order_details" model="ir.ui.view">
+        <field name="name">product.order.details</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='sale_ok']" position="before">
+                <field name="product_rating"/>
+            </xpath>
+            <xpath expr="//notebook/page[last()]" position="after">
+                <page name="sale_order_details" string="Sale Order Details">
+                    <field name="product_buyers"/>
+                    <field name="product_rating" readonly="1"/>
+                </page>
+            </xpath>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="account_search_view">
+        <field name="name">res.account.partner.search</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_account_invoice_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//search/field[@name='partner_id']" position="before">
+                <field name="custom_price"/>
+                <field name="payment_mode"/>
+            </xpath>
+            <xpath expr="//search//filter[@name='partial']" position="after">
+                <filter name="mode" string="Payment Mode" domain="[('payment_mode','=','0')]"/>
+                <separator/>
+            </xpath>
+            <xpath expr="//search//filter[@name='due_date']" position="replace">
+                <separator/>
+                <filter name="cu_price" string="Custom Price" domain="[('custom_price','>', 0)]"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="stock_one2many_custom">
+        <field name="name">stock.one2many.custom</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='scheduled_date']" position="after">
+                <field name="customer_names"/>
+                <!--                for customer name many 2 one field-->
+            </xpath>
+        </field>
+    </record>
+
+    <record id="custom_invoice_action" model="ir.actions.act_window">
+        <field name="context">{}</field>
+        <field name="name">Custom invoice action</field>
+        <field name="res_model">account.move</field>
+        <field name="view_id" ref="custom_invoice_tree"/>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="custom_root"
+              name="Custom Invoice"
+              sequence="3"/>
+
+    <menuitem id="Custom_sub_menu_1"
+              name="Custom Invoice Detail 1"
+              parent="custom_root"
+              action="custom.custom_invoice_action"
+              sequence="2"/>
+
+    <menuitem id="custom_sub_1"
+              name="Custom Invoice Sub Details 1"
+              parent="Custom_sub_menu_1"
+              action="custom.custom_invoice_action"
+              sequence="3"/>
+</odoo>

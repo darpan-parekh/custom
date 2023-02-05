@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="sale_order_form_view" model="ir.ui.view">
+        <field name="name">sale.order.form.view</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button name="%(custom.custom_wizard_action)d" type="action" string="Custom Wizard"/>
+                <button name="action_custom_wizard" type="object" string="Wizard Object"/>
+            </xpath>
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="order_select" placeholder="Select Order Status"/>
+                <field name="product_avg_disc" string="Product Avg Disc %"/>
+                <field name="student_sale"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sale_order_form_custom_add_lines">
+        <field name="name">sale.order.form.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+<!--            <xpath expr="//notebook/page[@name='order_lines']/field[@name='order_line']/tree/field[@name='product_id']"-->
+<!--                   position="attributes">-->
+
+<!--                <attribute name="domain">[('type','=','product'),('qty_available','>',0.00),'|',('seller_ids.name','=',parent.partner_id), ('seller_ids.name.child_ids', '=', parent.partner_id), ('purchase_ok', '=', True)]-->
+
+<!--                </attribute>-->
+<!--            </xpath>-->
+            <xpath expr="//notebook/page[@name='order_lines']/field[@name='order_line']/tree/field[@name='tax_id']"
+                   position="after">
+                <field name="product_didc_type" string="Discount Type" placeholder="Select Type"/>
+                <field name="product_disc"/>
+                <!--                <field name="student_sale"/>-->
+            </xpath>
+            <xpath expr="//header" position="inside">
+                <button name="%(custom.custom_wizard_line_action)d" string="Product Field" type="action"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sale_order_custom_page">
+        <field name="name">sale.order.custom.page</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook/page[last()]" position="after">
+                <page string="Last Page" name="last">
+                    <field name="stock_names" string="Stock Name"/>
+                    <!--                    one 2 many field        -->
+                </page>
+            </xpath>
+            <xpath expr="//notebook/page[@name='order_lines']" position="before">
+                <page string="First Page" name="first">
+                    <group>
+                        <field name="name"/>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="res_partner_extend_date_days" model="ir.ui.view">
+        <field name="name">res.partner.extend.date.days</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='vat']" position="after">
+                <field name="expiry_date_days"/>
+                <field name="total_sale_price"/>
+            </xpath>
+            <xpath expr="//field[@name='category_id']" position="after">
+                <field name="due_payment_date_days"/>
+            </xpath>
+        </field>
+    </record>
+
+
+    <record id="res_partner_2_crm_relation" model="ir.actions.act_window">
+        <field name="name">crm.smart.button.action</field>
+        <field name="res_model">crm.lead</field>
+        <field name="context">{'search_default_partner_id': active_id, 'default_partner_id': active_id}</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="customer_action" model="ir.actions.act_window">
+        <field name="context">{}</field>
+        <field name="name">Custom Customer</field>
+        <field name="res_model">sale.order</field>
+        <field name="view_id" ref="sale_order_form_view"/>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="crm_view_smart_button" model="ir.ui.view">
+        <field name="name">crm.view.smart.button</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="priority" eval="4"/>
+        <field name="arch" type="xml">
+            <div name="button_box" position="inside">
+                <button class="oe_stat_button" type="action" name="%(custom.res_partner_2_crm_relation)d"
+                        string=' crm relation ' icon="fa-user">
+                    <field string="crm relation" name="customer_relation_count"/>
+                </button>
+            </div>
+        </field>
+    </record>
+
+    <menuitem id="custom_root"
+              name="Custom Customer"
+              sequence="2"/>
+
+    <menuitem id="Custom_sub_menu_1"
+              name="Custom Customer 1"
+              parent="custom_root"
+              action="custom.customer_action"
+              sequence="2"/>
+
+    <menuitem id="custom_sub_submenu_1"
+              name="Custom Customer Details 1"
+              parent="Custom_sub_menu_1"
+              action="custom.customer_action"
+              sequence="2"/>
+
+</odoo>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id="user_commission_view" model="ir.ui.view">
+        <field name="name">user.commission.view</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook/page[@name='references']" position="after">
+                <page name="user_commission" string="User Commission" attrs="{'invisible':[('id','=',2)]}">
+                    <label for="commission" string="Commission %"/>
+                    <field name="commission"/>
+                    <br/>
+                    <label for="amount" string="Total Amount Earned"/>
+                    <field name="amount" readonly="1"/>
+                    <br/>
+                    <button type="object" name="pay_commission" string="Pay"/>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <!--    <record id="user_invoice_form" model="ir.ui.view">-->
+    <!--        <field name="name">user.invoice.form</field>-->
+    <!--        <field name="model">account.move</field>-->
+    <!--        <field name="inherit_id" ref="account.view_move_form"/>-->
+    <!--        <field name="arch" type="xml">-->
+    <!--            &lt;!&ndash;            <xpath expr="//header/button[@name='button_cancel']" position="after">&ndash;&gt;-->
+    <!--            &lt;!&ndash;                <button name="validate_amount" type="object" string="Validate" class="btn-primary"/>&ndash;&gt;-->
+    <!--            &lt;!&ndash;            </xpath>&ndash;&gt;-->
+    <!--&lt;!&ndash;            <xpath expr="//notebook/page[@id='invoice_tab']" position="attributes">&ndash;&gt;-->
+    <!--&lt;!&ndash;                <attribute name="attrs">{'invisible': [('move_type', '!=', 'entry')]}</attribute>&ndash;&gt;-->
+    <!--&lt;!&ndash;            </xpath>&ndash;&gt;-->
+    <!--&lt;!&ndash;            <xpath expr="//notebook/page[@id='invoice_tab']//field[@name='invoice_line_ids']//tree//field[@name='product_id']"&ndash;&gt;-->
+    <!--&lt;!&ndash;                   position="attributes">&ndash;&gt;-->
+    <!--&lt;!&ndash;&lt;!&ndash;                <attribute name="readonly">1</attribute>&ndash;&gt;&ndash;&gt;-->
+    <!--&lt;!&ndash;            </xpath>&ndash;&gt;-->
+    <!--        </field>-->
+    <!--    </record>-->
+
+    <!--    <record id="user_invoice_form" model="ir.ui.view">-->
+    <!--        <field name="name">user.invoice.form</field>-->
+    <!--        <field name="model">user.commission</field>-->
+    <!--        <field name="arch" type="xml">-->
+    <!--            <header>-->
+    <!--                <button name="validate_amount" type="object" string="Validate"/>-->
+    <!--            </header>-->
+    <!--            <sheet>-->
+    <!--                <tree>-->
+    <!--                    <field name="partner_id"/>-->
+    <!--                </tree>-->
+    <!--                <notebook>-->
+    <!--                    <page name="commission" string="Commission">-->
+    <!--                        <field name="user_commission_line" string="User Commission Line">-->
+    <!--                            &lt;!&ndash;                       attrs="{'invisible':[('partner_id','!=','user_id')]}">&ndash;&gt;-->
+    <!--                            <tree editable="bottom">-->
+    <!--                                <field name="commission" string="Commission" readonly="1"/>-->
+    <!--                                <field name="amount" string="Total Amount" readonly="1"/>-->
+    <!--                            </tree>-->
+    <!--                        </field>-->
+    <!--                    </page>-->
+    <!--                </notebook>-->
+    <!--            </sheet>-->
+    <!--        </field>-->
+    <!--    </record>-->
+
+    <!--    <record id="commission_tree_view" model="ir.ui.view">-->
+    <!--        <field name="name">commission.tree.view</field>-->
+    <!--        <field name="model">user.commission</field>-->
+    <!--        <field name="arch" type="xml">-->
+    <!--            <tree>-->
+    <!--                <field name="partner_id"/>-->
+    <!--                <field name="commission"/>-->
+    <!--                <field name="amount"/>-->
+    <!--            </tree>-->
+    <!--        </field>-->
+    <!--    </record>-->
+
+</odoo>

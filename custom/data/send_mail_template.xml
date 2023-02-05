@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="mail_invoice_report" model="mail.template">
+        <field name="name">Mail Invoice Report</field>
+        <field name="model_id" ref="model_invoice_records"/>
+        <field name="subject">${object.name} Invoice Report</field>
+        <field name="email_from">darpanparekh.acespritech@gmail.com</field>
+        <field name="email_to">'darpanparekh68@gmail.com'</field>
+        <field name="body_html" type="xml">
+            <div>
+                <b>
+                    Dear ${object.name}, This is your invoice report.
+                </b>
+                <br/>
+                <i>invoice contains all data</i>
+                <br/>
+                Hello i am Darpan.
+                <p>this is paragraph tag.
+                    this is the general information for student.
+                </p>
+            </div>
+        </field>
+    </record>
+</odoo>

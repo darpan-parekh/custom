@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record model="ir.ui.view" id="view_custom_wizard_form">
+        <field name="name">custom.wizard.view</field>
+        <field name="model">custom.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Customer Feedback">
+                <field name="product_details">
+                    <tree editable="bottom">
+                        <field name="product_name"/>
+                        <field name="product_qty"/>
+                    </tree>
+                </field>
+                <footer>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    <button string="Done" type="object" name="product_send_btn" class="btn-primary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="custom_wizard_action" model="ir.actions.act_window">
+        <field name="context">{}</field>
+        <field name="name">Wizard to Add Product</field>
+        <field name="res_model">custom.wizard</field>
+        <field name="target">new</field>
+        <field name="view_id" ref="view_custom_wizard_form"/>
+        <field name="view_mode">form</field>
+    </record>
+
+     <record model="ir.ui.view" id="invoice_print_records">
+        <field name="name">invoice.records.print</field>
+        <field name="model">invoice.records</field>
+        <field name="arch" type="xml">
+            <form string="Account Reports">
+                <label for="report_type" string="Report Type"/>
+                <field name="report_type" widget="radio"/>
+                <footer>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    <button name='mail_report' type='object' string="Send Mail" class="oe_highlight"/>
+                    <button name='print_report' type='object' string="Print Report" class="oe_highlight"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+</odoo>

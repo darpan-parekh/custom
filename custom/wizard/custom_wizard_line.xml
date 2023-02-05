@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record model="ir.ui.view" id="view_custom_wizard_line_form">
+        <field name="name">custom.wizard.line.view</field>
+        <field name="model">custom.wizard.line</field>
+        <field name="arch" type="xml">
+            <form string="Customer Feedback">
+                <field name="product_data" string="Product Data"/>
+                <footer>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="custom_wizard_line_action" model="ir.actions.act_window">
+        <field name="context">{}</field>
+        <field name="name">Custom Wizard </field>
+        <field name="res_model">custom.wizard.line</field>
+        <field name="target">new</field>
+        <field name="view_id" ref="view_custom_wizard_line_form"/>
+        <field name="view_mode">form</field>
+    </record>
+</odoo>
